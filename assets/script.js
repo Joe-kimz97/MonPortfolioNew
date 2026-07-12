@@ -28,6 +28,8 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Animation des chiffres clés (KPI) au défilement
+  
+  
   const kpis = document.querySelectorAll('.kpi-figure[data-target]');
   if (kpis.length){
     const animate = (el) => {
@@ -60,4 +62,63 @@ document.addEventListener('DOMContentLoaded', () => {
 
     kpis.forEach(el => io.observe(el));
   }
+
+  const twTarget = document.getElementById('hero-typewriter');
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+if (twTarget && !reduceMotion){
+  const segments = [
+    { text: 'Piloter des projets qui tiennent leurs ' },
+    { text: 'délais', accent: true },
+    { text: ', leurs ' },
+    { text: 'coûts', accent: true },
+    { text: ' et leurs ' },
+    { text: 'promesses', accent: true },
+    { text: '.' }
+  ];
+  const chars = [];
+  segments.forEach(function(seg){
+    for (const ch of seg.text) chars.push({ ch: ch, accent: !!seg.accent });
+  });
+  const TYPE_SPEED = 38;
+  const ERASE_SPEED = 20;
+  const PAUSE_FULL = 2200;
+  const PAUSE_EMPTY = 500;
+  let i = 0;
+  function renderTw(){
+    let html = '';
+    let curAccent = null;
+    let buffer = '';
+    for (let k = 0; k < i; k++){
+      const c = chars[k];
+      if (c.accent !== curAccent){
+        if (buffer) html += curAccent ? '<span class="accent">' + buffer + '</span>' : buffer;
+        buffer = '';
+        curAccent = c.accent;
+      }
+      buffer += c.ch;
+    }
+    if (buffer) html += curAccent ? '<span class="accent">' + buffer + '</span>' : buffer;
+    twTarget.innerHTML = html;
+  }
+  function typeStep(){
+    if (i < chars.length){
+      i++;
+      renderTw();
+      setTimeout(typeStep, TYPE_SPEED);
+    } else {
+      setTimeout(eraseStep, PAUSE_FULL);
+    }
+  }
+  function eraseStep(){
+    if (i > 0){
+      i--;
+      renderTw();
+      setTimeout(eraseStep, ERASE_SPEED);
+    } else {
+      setTimeout(typeStep, PAUSE_EMPTY);
+    }
+  }
+  twTarget.innerHTML = '';
+  setTimeout(typeStep, 500);
+}
 });
