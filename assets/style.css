@@ -151,15 +151,23 @@ h1,h2,h3,h4{
   border-radius:6px;
   transition:color .15s ease, background .15s ease, padding-left .15s ease;
 }
-.sidebar-nav a .idx{
-  font-family:var(--font-mono);
-  font-size:0.7rem;
+.sidebar-nav a .nav-icon{
+  width:17px;
+  height:17px;
+  flex-shrink:0;
   color:var(--gold);
-  opacity:0.8;
+  opacity:0.75;
+  transition:opacity .15s ease;
+}
+.sidebar-nav a .nav-icon svg{
+  width:100%;
+  height:100%;
+  display:block;
 }
 .sidebar-nav a:hover{color:var(--paper); background:rgba(246,243,236,0.06); padding-left:0.7rem;}
 .sidebar-nav a.active{color:var(--paper); font-weight:600;}
-.sidebar-nav a.active .idx{opacity:1;}
+.sidebar-nav a:hover .nav-icon,
+.sidebar-nav a.active .nav-icon{opacity:1;}
 
 .sidebar-footer{
   margin-top:auto;
