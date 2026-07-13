@@ -446,6 +446,14 @@ h1,h2,h3,h4{
   transform:translateY(-3px) scale(1.02);
   box-shadow:0 18px 30px -22px rgba(13,30,25,0.35);
 }
+
+.hp-field{
+  position:absolute;
+  left:-9999px;
+  width:1px;
+  height:1px;
+  overflow:hidden;
+}
 .card.reveal-pending{
   opacity:0;
   transform:translateY(24px);

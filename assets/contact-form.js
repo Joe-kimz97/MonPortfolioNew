@@ -13,13 +13,17 @@ document.addEventListener('DOMContentLoaded', () => {
       name: form.name.value.trim(),
       email: form.email.value.trim(),
       message: form.message.value.trim(),
-      company: form.company.value // champ piège, doit rester vide
+      company: form.company ? form.company.value : '' // champ piège, doit rester vide
     };
 
-    submitBtn.disabled = true;
-    submitBtn.textContent = 'Envoi en cours...';
-    status.textContent = '';
-    status.className = 'form-status';
+    if (submitBtn){
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Envoi en cours...';
+    }
+    if (status){
+      status.textContent = '';
+      status.className = 'form-status';
+    }
 
     try {
       const res = await fetch('/api/contact', {
@@ -30,19 +34,35 @@ document.addEventListener('DOMContentLoaded', () => {
       const result = await res.json();
 
       if (res.ok) {
-        status.textContent = 'Message envoyé avec succès. Merci, je vous répondrai rapidement.';
-        status.classList.add('success');
+        if (status){
+          status.textContent = 'Message envoyé avec succès. Merci, je vous répondrai rapidement.';
+          status.classList.add('success');
+        } else {
+          alert('Message envoyé avec succès. Merci, je vous répondrai rapidement.');
+        }
         form.reset();
       } else {
-        status.textContent = result.error || "Une erreur est survenue. Merci de réessayer.";
-        status.classList.add('error');
+        const msg = result.error || "Une erreur est survenue. Merci de réessayer.";
+        if (status){
+          status.textContent = msg;
+          status.classList.add('error');
+        } else {
+          alert(msg);
+        }
       }
     } catch (err) {
-      status.textContent = "Impossible de contacter le serveur. Vérifiez votre connexion et réessayez.";
-      status.classList.add('error');
+      const msg = "Impossible de contacter le serveur. Vérifiez votre connexion et réessayez.";
+      if (status){
+        status.textContent = msg;
+        status.classList.add('error');
+      } else {
+        alert(msg);
+      }
     } finally {
-      submitBtn.disabled = false;
-      submitBtn.textContent = 'Envoyer le message';
+      if (submitBtn){
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Envoyer le message';
+      }
     }
   });
 });
