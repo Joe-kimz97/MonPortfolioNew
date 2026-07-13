@@ -121,4 +121,19 @@ if (twTarget && !reduceMotion){
   twTarget.innerHTML = '';
   setTimeout(typeStep, 500);
 }
+
+const revealCards = document.querySelectorAll('.card-grid .card');
+if (revealCards.length){
+  revealCards.forEach(function(card){ card.classList.add('reveal-pending'); });
+  const cardIO = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if (entry.isIntersecting){
+        entry.target.classList.remove('reveal-pending');
+        entry.target.classList.add('in-view');
+        cardIO.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  revealCards.forEach(function(card){ cardIO.observe(card); });
+}
 });
