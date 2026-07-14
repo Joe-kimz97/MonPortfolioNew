@@ -984,8 +984,14 @@ h1,h2,h3,h4{
   margin-bottom:2rem;
 }
 .article-back:hover{color:var(--gold);}
+
+
+
+
+
 /* ==========================================================================
    KZ IA — Widget de chat flottant
+   À COLLER À LA FIN de votre fichier assets/style.css existant
    ========================================================================== */
 .kzia-widget{
   position:fixed;
