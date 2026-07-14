@@ -136,4 +136,5 @@ if (revealCards.length){
   }, { threshold: 0.15 });
   revealCards.forEach(function(card){ cardIO.observe(card); });
 }
+
 });
